@@ -53,9 +53,23 @@ class ViewController: UIViewController {
         guard let window = UIApplication.shared.keyWindow  else {
             return
         }
-        UIGraphicsBeginImageContextWithOptions(window.bounds.size, false, 0);
-        window.drawHierarchy(in: window.bounds, afterScreenUpdates: updateSwitch.isOn)
+        let ratio = CGFloat(2)
+        let resizedSize = CGSize(width: window.bounds.size.width/ratio, height: window.bounds.size.height/ratio)
+        let resizedRect = CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height)
+        UIGraphicsBeginImageContextWithOptions(resizedSize, false, 0);
+        window.drawHierarchy(in: resizedRect, afterScreenUpdates: updateSwitch.isOn)
         let image = UIGraphicsGetImageFromCurrentImageContext()
+        
+//        UIGraphicsEndImageContext();
+
+//        UIGraphicsBeginImageContextWithOptions(resizedSize, false, 0);
+//        let context = UIGraphicsGetCurrentContext()
+//        context?.draw(image!.cgImage!, in: window.bounds)
+//        context?.scaleBy(x: 0.5, y: 0.5)
+//        let rect = CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height)
+//        image?.draw(in: rect)
+//        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        
         capturedImageView.image = image
         UIGraphicsEndImageContext();
 
