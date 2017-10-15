@@ -58,16 +58,21 @@ class ViewController: UIViewController {
         let resizedRect = CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height)
         UIGraphicsBeginImageContextWithOptions(resizedSize, false, 0);
         window.drawHierarchy(in: resizedRect, afterScreenUpdates: updateSwitch.isOn)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
+            fatalError("UIGraphicsGetImageFromCurrentImageContext failed")
+        }
         
 //        UIGraphicsEndImageContext();
-
+        
+        // imageの縮小
 //        UIGraphicsBeginImageContextWithOptions(resizedSize, false, 0);
-//        let context = UIGraphicsGetCurrentContext()
-//        context?.draw(image!.cgImage!, in: window.bounds)
-//        context?.scaleBy(x: 0.5, y: 0.5)
+//        guard let context = UIGraphicsGetCurrentContext() else {
+//            fatalError("UIGraphicsGetCurrentContext failed")
+//        }
+//        context.draw(image.cgImage!, in: window.bounds)
+//        context.scaleBy(x: 0.5, y: 0.5)
 //        let rect = CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height)
-//        image?.draw(in: rect)
+//        image.draw(in: rect)
 //        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         
         capturedImageView.image = image
