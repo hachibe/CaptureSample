@@ -19,12 +19,12 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        timer = Timer.scheduledTimer(timeInterval: 0.01,
-                                     target: self,
-                                     selector: #selector(updateTime),
-                                     userInfo: nil,
-                                     repeats: true)
-        timer.fire()
+//        timer = Timer.scheduledTimer(timeInterval: 0.01,
+//                                     target: self,
+//                                     selector: #selector(updateTime),
+//                                     userInfo: nil,
+//                                     repeats: true)
+//        timer.fire()
     }
     
     @objc func updateTime() {
@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         
         let screen = UIScreen.main
         UIGraphicsBeginImageContextWithOptions(screen.bounds.size, false, 0);
-        let snapshotView = UIScreen.main.snapshotView(afterScreenUpdates: false)
+        let snapshotView = screen.snapshotView(afterScreenUpdates: false)
         snapshotView.drawHierarchy(in: screen.bounds, afterScreenUpdates: updateSwitch.isOn)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         capturedImageView.image = image
@@ -53,7 +53,7 @@ class ViewController: UIViewController {
         guard let window = UIApplication.shared.keyWindow  else {
             return
         }
-        let ratio = CGFloat(2)
+        let ratio = CGFloat(1)
         let resizedSize = CGSize(width: window.bounds.size.width/ratio, height: window.bounds.size.height/ratio)
         let resizedRect = CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height)
         UIGraphicsBeginImageContextWithOptions(resizedSize, false, 0);
@@ -62,7 +62,7 @@ class ViewController: UIViewController {
             fatalError("UIGraphicsGetImageFromCurrentImageContext failed")
         }
         
-//        UIGraphicsEndImageContext();
+        UIGraphicsEndImageContext();
         
         // imageの縮小
 //        UIGraphicsBeginImageContextWithOptions(resizedSize, false, 0);
@@ -75,12 +75,16 @@ class ViewController: UIViewController {
 //        image.draw(in: rect)
 //        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         
-        capturedImageView.image = image
-        UIGraphicsEndImageContext();
+//        capturedImageView.image = image
+//        UIGraphicsEndImageContext();
 
+//        let startDate = Date()
+        
         // pixelBufferの生成
-        let width = Int(image.size.width * ratio) / 16 * 16 // 16の倍数に
-        let height = Int(image.size.height * ratio) / 16 * 16
+//        let width = Int(image.size.width * ratio) / 16 * 16 // 16の倍数に
+//        let height = Int(image.size.height * ratio) / 16 * 16
+        let width = 800
+        let height = 416
         let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
                      kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
         var buffer: CVPixelBuffer?
@@ -110,9 +114,9 @@ class ViewController: UIViewController {
                                       bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue) else {
                                         fatalError("CGContext from pixelBuffer failed")
         }
-        context.translateBy(x: 0, y: image.size.height * ratio)
-        context.scaleBy(x: 1.0, y: -1.0)
-        
+//        context.translateBy(x: 0, y: image.size.height * ratio)
+//        context.scaleBy(x: 1.0, y: -1.0)
+
         UIGraphicsPushContext(context)
         image.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
         UIGraphicsPopContext()
